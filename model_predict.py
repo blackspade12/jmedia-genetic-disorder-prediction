@@ -1,17 +1,25 @@
+import os
+import gdown
 import pandas as pd
 import joblib
 
+# Function to download model from Google Drive using gdown
+def download_model(model_url, model_path):
+    if not os.path.exists(model_path):  # Check if the model already exists
+        gdown.download(model_url, model_path, quiet=False)
+    return joblib.load(model_path)
+
 # Function to load model7 on demand
 def load_model7():
-    model7_path = 'C:\\Users\\tanwa\\OneDrive\\Desktop\\Genetic\\gen\\models\\model7.pkl'
-    model7 = joblib.load(model7_path)
-    return model7
+    model7_url = 'https://drive.google.com/uc?id=1rb8S9sJhIgwP66tX6-zv7T-GTH9Rp2TS'  # Model 7 file ID
+    model7_path = 'model7.pkl'
+    return download_model(model7_url, model7_path)
 
 # Function to load model15 on demand
 def load_model15():
-    model15_path = 'C:\\Users\\tanwa\\OneDrive\\Desktop\\Genetic\\gen\\models\\model15.pkl'
-    model15 = joblib.load(model15_path)
-    return model15
+    model15_url = 'https://drive.google.com/uc?id=1kmnUZ5aYgnDDIKs-dzjOS9chixJ9G4XB'  # Model 15 file ID
+    model15_path = 'model15.pkl'
+    return download_model(model15_url, model15_path)
 
 def predict_genetic_disorder(input_data):
     # Load models on demand
@@ -76,32 +84,3 @@ def predict_genetic_disorder(input_data):
     json_output = submission.to_json(orient='records', lines=True)
 
     return json_output
-
-# Example usage:
-input_data = {
-    'White Blood cell count (thousand per microliter)': [0.6529786],
-    'Blood cell count (mcL)': [-0.5118449],
-    'Patient Age': [-0.714285714],
-    'Father\'s age': [0],
-    'Mother\'s age': [0],
-    'No. of previous abortion': [-0.666666667],
-    'Blood test result': [2],
-    'Gender': [0],
-    'Birth asphyxia': [0],
-    'Symptom 5': [1],
-    'Heart Rate (rates/min)': [0],
-    'Respiratory Rate (breaths/min)': [0],
-    'Folic acid details (peri-conceptional)': [1],
-    'History of anomalies in previous pregnancies': [1],
-    'Autopsy shows birth defect (if applicable)': [0],
-    'Assisted conception IVF/ART': [1],
-    'Symptom 4': [0],
-    'Follow-up': [1],
-    'Birth defects': [0],
-}
-
-# Call the function and get the JSON output
-#output_json = predict_genetic_disorder(input_data)
-
-# Print the output
-#print(output_json)
