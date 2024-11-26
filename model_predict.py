@@ -1,33 +1,22 @@
 import pandas as pd
 import joblib
-import os
-import gdown
 
-# Define a function to download models from Google Drive
-def download_model_from_drive(drive_url, output_path):
-    if not os.path.exists(output_path):
-        print(f"Downloading model from {drive_url} to {output_path}...")
-        gdown.download(drive_url, output_path, quiet=False)
-    else:
-        print(f"Model already exists at {output_path}.")
+# Function to load model7 on demand
+def load_model7():
+    model7_path = 'C:\\Users\\tanwa\\OneDrive\\Desktop\\Genetic\\gen\\models\\model7.pkl'
+    model7 = joblib.load(model7_path)
+    return model7
+
+# Function to load model15 on demand
+def load_model15():
+    model15_path = 'C:\\Users\\tanwa\\OneDrive\\Desktop\\Genetic\\gen\\models\\model15.pkl'
+    model15 = joblib.load(model15_path)
+    return model15
 
 def predict_genetic_disorder(input_data):
-    # Google Drive file URLs (replace these with your actual links)
-    model7_drive_url = "https://drive.google.com/uc?id=1rb8S9sJhIgwP66tX6-zv7T-GTH9Rp2TS"
-    model15_drive_url = "https://drive.google.com/uc?id=1kmnUZ5aYgnDDIKs-dzjOS9chixJ9G4XB"
-
-    # Local paths where the models will be downloaded
-    model7_path = "models/model7.pkl"
-    model15_path = "models/model15.pkl"
-
-    # Ensure models are downloaded
-    os.makedirs("models", exist_ok=True)
-    download_model_from_drive(model7_drive_url, model7_path)
-    download_model_from_drive(model15_drive_url, model15_path)
-
-    # Load the saved models
-    model7 = joblib.load(model7_path)
-    model15 = joblib.load(model15_path)
+    # Load models on demand
+    model7 = load_model7()
+    model15 = load_model15()
 
     # Convert the input JSON data to a pandas DataFrame
     single_input = pd.DataFrame(input_data)
@@ -44,7 +33,7 @@ def predict_genetic_disorder(input_data):
         'Gender',
         'Birth asphyxia',
         'Symptom 5',
-        'Heart Rate (rates/min',
+        'Heart Rate (rates/min)',
         'Respiratory Rate (breaths/min)',
         'Folic acid details (peri-conceptional)',
         'History of anomalies in previous pregnancies',
@@ -112,4 +101,7 @@ input_data = {
 }
 
 # Call the function and get the JSON output
-# output_json = predict_genetic_disorder(input_data
+#output_json = predict_genetic_disorder(input_data)
+
+# Print the output
+#print(output_json)
