@@ -6,7 +6,7 @@ from model_predict import predict_genetic_disorder  # Ensure this imports the fu
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-@app.route("/genetic_prediction", methods=["POST", "GET"])
+@app.route("/genetic_prediction", methods=["POST"])
 def genetic_predict():
     try:
         # Get input data from the request
