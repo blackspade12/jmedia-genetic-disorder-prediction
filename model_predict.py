@@ -13,8 +13,8 @@ def download_model_from_drive(drive_url, output_path):
 
 def predict_genetic_disorder(input_data):
     # Google Drive file URLs (replace these with your actual links)
-    model7_drive_url = "https://drive.google.com/file/d/1rb8S9sJhIgwP66tX6-zv7T-GTH9Rp2TS/view?usp=drive_link"
-    model15_drive_url = "https://drive.google.com/file/d/1kmnUZ5aYgnDDIKs-dzjOS9chixJ9G4XB/view?usp=drive_link"
+    model7_drive_url = "https://drive.google.com/uc?id=1rb8S9sJhIgwP66tX6-zv7T-GTH9Rp2TS"
+    model15_drive_url = "https://drive.google.com/uc?id=1kmnUZ5aYgnDDIKs-dzjOS9chixJ9G4XB"
 
     # Local paths where the models will be downloaded
     model7_path = "models/model7.pkl"
