@@ -3,3 +3,4 @@ Flask-Cors==5.0.0
 pandas==2.2.3
 joblib==1.4.2
 gdown==5.2.0
+gunicorn==23.0.0
