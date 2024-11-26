@@ -43,4 +43,6 @@ def genetic_predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Get the port from environment variable (Render will set this)
+    port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
+    app.run(host='0.0.0.0', port=port, debug=False)  # Bind to 0.0.0.0 for external access
