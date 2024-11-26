@@ -12,13 +12,13 @@ def download_model(model_url, model_path):
 # Function to load model7 on demand
 def load_model7():
     model7_url = 'https://drive.google.com/uc?id=1rb8S9sJhIgwP66tX6-zv7T-GTH9Rp2TS'  # Model 7 file ID
-    model7_path = 'model7.pkl'
+    model7_path = "/tmp/model7.pkl"
     return download_model(model7_url, model7_path)
 
 # Function to load model15 on demand
 def load_model15():
     model15_url = 'https://drive.google.com/uc?id=1kmnUZ5aYgnDDIKs-dzjOS9chixJ9G4XB'  # Model 15 file ID
-    model15_path = 'model15.pkl'
+    model15_path = "/tmp/model15.pkl"
     return download_model(model15_url, model15_path)
 
 def predict_genetic_disorder(input_data):
