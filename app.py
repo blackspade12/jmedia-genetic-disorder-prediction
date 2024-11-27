@@ -19,11 +19,12 @@ def genetic_predict():
         # Call the prediction function with the input data
         predicted_output = predict_genetic_disorder(input_data)
 
-        # Return the prediction as a JSON response
-        return jsonify(predicted_output)
+        # Return the prediction directly (as it's already a JSON response)
+        return predicted_output
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 if __name__ == '__main__':

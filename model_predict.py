@@ -2,6 +2,8 @@ import os
 import gdown
 import pandas as pd
 import joblib
+from flask import jsonify
+import tempfile  # Added for handling temp directory
 
 # Function to download model from Google Drive using gdown
 def download_model(model_url, model_path):
@@ -12,13 +14,13 @@ def download_model(model_url, model_path):
 # Function to load model7 on demand
 def load_model7():
     model7_url = 'https://drive.google.com/uc?id=1rb8S9sJhIgwP66tX6-zv7T-GTH9Rp2TS'  # Model 7 file ID
-    model7_path = "/tmp/model7.pkl"
+    model7_path = os.path.join(tempfile.gettempdir(), "model7.pkl")  # Use a temp directory
     return download_model(model7_url, model7_path)
 
 # Function to load model15 on demand
 def load_model15():
     model15_url = 'https://drive.google.com/uc?id=1kmnUZ5aYgnDDIKs-dzjOS9chixJ9G4XB'  # Model 15 file ID
-    model15_path = "/tmp/model15.pkl"
+    model15_path = os.path.join(tempfile.gettempdir(), "model15.pkl")  # Use a temp directory
     return download_model(model15_url, model15_path)
 
 def predict_genetic_disorder(input_data):
@@ -29,7 +31,7 @@ def predict_genetic_disorder(input_data):
     # Convert the input JSON data to a pandas DataFrame
     single_input = pd.DataFrame(input_data)
 
-    # Columns from training dataset
+    # Columns from the training dataset
     expected_columns = [
         'White Blood cell count (thousand per microliter)',
         'Blood cell count (mcL)',
@@ -41,7 +43,7 @@ def predict_genetic_disorder(input_data):
         'Gender',
         'Birth asphyxia',
         'Symptom 5',
-        'Heart Rate (rates/min)',
+        'Heart Rate (rates/min',
         'Respiratory Rate (breaths/min)',
         'Folic acid details (peri-conceptional)',
         'History of anomalies in previous pregnancies',
@@ -59,13 +61,13 @@ def predict_genetic_disorder(input_data):
     final_pred1 = model7.predict(single_input)
     final_pred2 = model15.predict(single_input)
 
-    # Create a DataFrame for submission
+    # Create a DataFrame for the predictions
     submission = pd.DataFrame()
-    submission['Patient Id'] = [1]  # You can modify this if needed
+    submission['Patient Id'] = [1]  # Replace with dynamic IDs if needed
     submission['Genetic Disorder'] = final_pred1
     submission['Disorder Subclass'] = final_pred2
 
-    # Replace numerical values with descriptive strings
+    # Replace numerical predictions with descriptive strings
     submission['Genetic Disorder'] = submission['Genetic Disorder'].replace(0, 'Mitochondrial genetic inheritance disorders')
     submission['Genetic Disorder'] = submission['Genetic Disorder'].replace(2, 'Single-gene inheritance diseases')
     submission['Genetic Disorder'] = submission['Genetic Disorder'].replace(1, 'Multifactorial genetic inheritance disorders')
@@ -80,7 +82,8 @@ def predict_genetic_disorder(input_data):
     submission['Disorder Subclass'] = submission['Disorder Subclass'].replace(7, 'Mitochondrial myopathy')
     submission['Disorder Subclass'] = submission['Disorder Subclass'].replace(8, 'Tay-Sachs')
 
-    # Convert to JSON and return the result
-    json_output = submission.to_json(orient='records', lines=True)
+    # Convert DataFrame to dictionary (single record)
+    result = submission.to_dict(orient='records')[0]
 
-    return json_output
+    # Return a JSON response using jsonify
+    return jsonify(result)
